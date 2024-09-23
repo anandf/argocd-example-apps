@@ -1,6 +1,7 @@
 resources:
 - base/carts-db-dep.yaml
 - base/carts-db-svc.yaml
+- base/carts-db-route.yaml
 - base/carts-dep.yaml
 - base/catalogue-db-dep.yaml
 - base/catalogue-db-svc.yaml

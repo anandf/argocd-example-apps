@@ -1,0 +1,20 @@
+{{- with .Values.realm }}
+{{- $clientSecret := randAlphaNum 24 | nospace -}}
+apiVersion: v1.edp.epam.com/v1
+kind: KeycloakRealmIdentityProvider
+metadata:
+  name: {{ .name }}-openshift-v4
+  namespace: {{ $.Release.Namespace }}
+spec:
+  alias: openshift-v4
+  config:
+    baseUrl: {{ $.Values.misc.apiUrl }}
+    clientId: {{ printf "%s-%s" $.Values.keycloak.name .name }}
+    clientSecret: {{ $clientSecret }}
+  enabled: true
+  firstBrokerLoginFlowAlias: autolink
+  providerId: openshift-v4
+  realmRef:
+    kind: KeycloakRealm
+    name: {{ .name }}
+{{- end }}

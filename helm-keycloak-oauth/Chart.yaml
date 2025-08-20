@@ -1,0 +1,6 @@
+apiVersion: v2
+name: helm-keycloak-oauth
+description: A Helm chart for deploying Keycloak OAuthClient and KeycloakRealmIdentityProvider
+type: application
+version: 0.1.0
+appVersion: "1.0"

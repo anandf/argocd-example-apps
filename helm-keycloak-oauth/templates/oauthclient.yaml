@@ -1,0 +1,11 @@
+{{- with .Values.keycloak }}
+{{- $clientSecret := randAlphaNum 24 | nospace }}
+apiVersion: oauth.openshift.io/v1
+kind: OAuthClient
+metadata:
+  name: {{ printf "%s-%s" .name $.Values.realm.name }}
+secret: {{ $clientSecret }}
+redirectURIs:
+  - {{ printf "https://%s/auth/realms/%s/broker/openshift-v4/endpoint" .hostname $.Values.realm.name }}
+grantMethod: auto
+{{- end }}

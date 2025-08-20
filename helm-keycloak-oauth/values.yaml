@@ -1,0 +1,10 @@
+# values.yaml
+misc:
+  apiUrl: "https://kubernetes.default.svc"
+
+keycloak:
+  name: "my-keycloak"
+  hostname: "keycloak.example.com"
+
+realm:
+  name: "my-realm"

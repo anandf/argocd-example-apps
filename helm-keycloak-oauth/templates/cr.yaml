@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ printf "%s-cluster-role" .name }}
+  name: {{ .Values.keycloak.name }}-my-app
 rules:
 - apiGroups:
   - oauth.openshift.io

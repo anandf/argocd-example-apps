@@ -104,7 +104,7 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: test-keycloak
     server: https://kubernetes.default.svc
   ignoreDifferences:
   - group: v1.edp.epam.com
@@ -142,7 +142,7 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: test-keycloak
     server: https://kubernetes.default.svc
   ignoreDifferences:
   - group: v1.edp.epam.com
@@ -187,5 +187,10 @@ argocd app sync cci-keycloak
 ```shell
 oc patch keycloakrealmidentityproviders -n test-keycloak my-realm-openshift-v4 --patch '{"spec": {"config": {"clientSecret": "abcde"}}}' --type merge
 oc patch oauthclient my-keycloak-my-realm --patch '{"secret": "abcde"}'
-oc patch clusterrole my-keycloak-my-app --type='json' -p='[{"op": "replace", "path": "/rules/0/verbs", "value": ["get"]}]'
+oc patch clusterrole my-keycloak-cluster-role --type='json' -p='[{"op": "replace", "path": "/rules/0/verbs", "value": ["get"]}]'
+```
+```shell
+oc patch keycloakrealmidentityproviders -n test-keycloak kustomize-my-realm-openshift-v4 --patch '{"spec": {"config": {"clientSecret": "abcde"}}}' --type merge
+oc patch oauthclient kustomize-my-keycloak-my-realm --patch '{"secret": "abcde"}'
+oc patch clusterrole kustomize-my-keycloak-cluster-role --type='json' -p='[{"op": "replace", "path": "/rules/0/verbs", "value": ["get"]}]'
 ```

@@ -86,14 +86,14 @@ oc auth can-i create oauthclients --as=system:serviceaccount:openshift-gitops:op
 ```
 If the RBAC resources are configured correctly, you should see a response saying `yes`
 
-## Create the destination namespace and allow it to be managed by `openshif-gitops` ArgoCD instance.
+## Create the destination namespace and allow it to be managed by `openshift-gitops` ArgoCD instance.
 ```shell
 oc create ns test-keycloak && oc label ns test-keycloak argocd.argoproj.io/managed-by=openshift-gitops
 ```
 
 ## Create the application
 
-### Helm based
+### Kustomize based
 
 ```shell
 oc apply -f - <<EOF
@@ -121,10 +121,7 @@ spec:
       - /rules/0/verbs
   project: default
   source:
-    helm:
-      valueFiles:
-      - ./values.yaml
-    path: helm-keycloak-oauth
+    path: kustomize-keycloak-oauth
     repoURL: https://github.com/anandf/argocd-example-apps
     targetRevision: master
   syncPolicy:
@@ -149,11 +146,9 @@ argocd app sync cci-keycloak
 ## Make local edits to the resources
 
 #### Patch the fields in `OAuthClient`, `KeyCloakRealmIdentityProvider` and `ClusteRole` using the following commands.
-
-##### Helm based
-
+##### Kustomize based
 ```shell
-oc patch keycloakrealmidentityproviders -n test-keycloak my-realm-openshift-v4 --patch '{"spec": {"config": {"clientSecret": "abcde"}}}' --type merge
-oc patch oauthclient my-keycloak-my-realm --patch '{"secret": "abcde"}'
-oc patch clusterrole my-keycloak-cluster-role --type='json' -p='[{"op": "replace", "path": "/rules/0/verbs", "value": ["get"]}]'
+oc patch keycloakrealmidentityproviders -n test-keycloak kustomize-my-realm-openshift-v4 --patch '{"spec": {"config": {"clientSecret": "abcde"}}}' --type merge
+oc patch oauthclient kustomize-my-keycloak-my-realm --patch '{"secret": "abcde"}'
+oc patch clusterrole kustomize-my-keycloak-cluster-role --type='json' -p='[{"op": "replace", "path": "/rules/0/verbs", "value": ["get"]}]'
 ```

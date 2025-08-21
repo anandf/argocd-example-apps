@@ -1,0 +1,17 @@
+apiVersion: v1.edp.epam.com/v1
+kind: KeycloakRealmIdentityProvider
+metadata:
+  name: my-realm-openshift-v4
+  namespace: default
+spec:
+  alias: openshift-v4
+  config:
+    baseUrl: https://kubernetes.default.svc
+    clientId: my-keycloak-my-realm
+    clientSecret: admin123
+  enabled: true
+  firstBrokerLoginFlowAlias: autolink
+  providerId: openshift-v4
+  realmRef:
+    kind: KeycloakRealm
+    name: my-realm

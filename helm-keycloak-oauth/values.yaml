@@ -1,4 +1,5 @@
 # values.yaml
+# dummy line
 misc:
   apiUrl: "https://kubernetes.default.svc"
 
